@@ -4,11 +4,13 @@ class ProductDataModel {
   final String description;
   final double price;
   final String imageUrl;
+  final List type;
 
   ProductDataModel(
       {required this.id,
       required this.name,
       required this.description,
       required this.price,
+      required this.type,
       required this.imageUrl});
 }

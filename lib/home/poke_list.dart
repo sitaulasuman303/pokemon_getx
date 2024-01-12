@@ -45,6 +45,7 @@ class ProductList extends StatelessWidget {
                   IconButton(
                       onPressed: () {
                         var myController = Get.find<MyController>();
+                        myController.addToFav(product);
                       },
                       icon: const Icon(Icons.favorite_border)),
                 ],

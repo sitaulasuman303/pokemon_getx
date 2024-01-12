@@ -6,6 +6,7 @@ import 'package:pokemon_getx/models/poke_model.dart';
 class MyController extends GetxController {
   List pokeData = <ProductDataModel>[].obs;
   List favData = <ProductDataModel>[].obs;
+  List filteredPokeData = <ProductDataModel>[].obs;
   var isLoading = true.obs;
   fetchData() async {
     try {
@@ -23,14 +24,15 @@ class MyController extends GetxController {
         final List<dynamic> pokeList = data['pokemon'];
         final List<ProductDataModel> products = pokeList.map((item) {
           return ProductDataModel(
-            id: item['id'],
-            name: item['name'],
-            description: item['name'],
-            price: double.tryParse(item['spawn_chance'].toString()) ?? 0.0,
-            imageUrl: item['img'],
-          );
+              id: item['id'],
+              name: item['name'],
+              description: item['name'],
+              price: double.tryParse(item['spawn_chance'].toString()) ?? 0.0,
+              imageUrl: item['img'],
+              type: item['type']);
         }).toList();
         pokeData.addAll(products);
+        filteredPokeData.addAll(products);
       }
     } catch (e) {
       print(e);
@@ -41,6 +43,14 @@ class MyController extends GetxController {
 
   void addToFav(ProductDataModel favProduct) {
     favData.add(favProduct);
+  }
+
+  void filterPokeData(String query) {
+    filteredPokeData.assignAll(
+      pokeData.where((pokemon) {
+        return pokemon.name.toLowerCase().contains(query.toLowerCase());
+      }).toList(),
+    );
   }
 
   @override
